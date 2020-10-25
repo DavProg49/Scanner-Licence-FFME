@@ -13,6 +13,8 @@
     });
 
     function exportList(event) {
+        var date = new Date();
+        let nomFichier = "perm_" + date.getFullYear() + "_" + date.getMonth() + "_" + date.getDate() + ".pdf";
         event.target.setAttribute("disabled", true);
 
         localStorage.setItem("manager", manager);
@@ -28,10 +30,10 @@
             {header:"Passeport", dataKey: "table-passport"},
         ];
 
-        doc.text("Liste des grimpeurs à la séance du " + new Date().toLocaleString(), 15, 10);
+        doc.text("Liste des grimpeurs à la séance du " + date.toLocaleString(), 15, 10);
         doc.text("Responsable : " + manager, 281, 10, {align: "right"});
         autoTable(doc, { html: "#climbers-table", columns: columns, theme: "grid" });
-        doc.save("export.pdf");
+        doc.save(nomFichier);
 
         event.target.removeAttribute("disabled");
     }

@@ -3,20 +3,19 @@
   import QrScanner from "qr-scanner";
   // @ts-ignore: Actually used by the rollup plugin to bundle it up
   import QrScannerWebworker from "web-worker:../node_modules/qr-scanner/qr-scanner-worker.min.js";
-
+ 
   const dispatch = createEventDispatcher();
-
   let video: HTMLVideoElement;
   let qrScanner: QrScanner;
 
   let isScanning = true;
   let hasFlash = false;
-
-  onMount(async () => {
-    QrScanner.WORKER_PATH = "build/lib/web-worker-0.js";
-
-    qrScanner = new QrScanner(video, onSuccessScan, (error) => {
-      if (error !== "No QR code found") {
+  
+  QrScanner.WORKER_PATH = "./build/lib/web-worker-0.js";    
+    
+  onMount(async () => {   
+   	qrScanner = new QrScanner(video, onSuccessScan, (error) => {
+      	if (error !== "No QR code found") {
         console.error("decoding error :", error);
       }
     });
@@ -28,7 +27,6 @@
     startScan();
   });
 
-
   function startScan() {
     qrScanner.start().then(() => {
       qrScanner.hasFlash().then((flash) => {
@@ -36,6 +34,7 @@
       })
     });
     isScanning = true;
+    console.log("scanning...")
   }
 
   function onSuccessScan(result: string) {
@@ -50,6 +49,10 @@
 
       qrScanner.stop();
       isScanning = false;
+    }
+    else
+    {
+    	console.log("not a valid licence : ");
     }
   }
 </script>

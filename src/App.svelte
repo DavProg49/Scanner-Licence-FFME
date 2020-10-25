@@ -24,9 +24,8 @@
   }
 
   async function fetchLicence(url: string): Promise<Climber> {
-    var request_url = url.replace("licencie.ffme.fr", location.href + "ffme");
-
-    return await fetch(request_url)
+    var request_url = url.replace("https:/"+"/licencie.ffme.fr", location.href + "ffme");
+	return await fetch(request_url)
       .then((response) => response.arrayBuffer())
       .then((buffer) => {
         // iso-8859-1 decoding from https://schneide.blog/2018/08/08/decoding-non-utf8-server-responses-using-the-fetch-api/
